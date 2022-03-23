@@ -5,8 +5,6 @@ import {
   Typography,
 } from '@mui/material';
 
-import { useAtom } from 'jotai';
-
 import {
   Navigate,
   Routes,
@@ -20,12 +18,12 @@ import {
 
 import Sidebar from './sidebar';
 
-import login from '../../atoms/login';
+import useLoginStore from '../../stores/login';
 
 export default function Dashboard() {
   const [openDrawer, setOpenDrawer] = React.useState(false);
-  const [isLoggedIn, setLoggedIn] = useAtom(login);
-  if (!isLoggedIn) return <Navigate to="/login" />;
+  const loginStore = useLoginStore((state) => state);
+  if (!loginStore.isLoggedIn) return <Navigate to="/login" />;
   return (
     <div className="flex flex-col w-full md:flex-row">
       <Sidebar open={openDrawer} setOpen={setOpenDrawer} />
@@ -35,7 +33,7 @@ export default function Dashboard() {
             <Menu />
           </IconButton>
           <Typography variant="h5" className="flex items-center justify-center flex-grow">Admin</Typography>
-          <IconButton onClick={() => setLoggedIn(false)}>
+          <IconButton onClick={() => loginStore.logout()}>
             <Logout />
           </IconButton>
         </div>

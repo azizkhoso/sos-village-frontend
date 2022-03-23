@@ -9,17 +9,17 @@ import {
   CircularProgress,
 } from '@mui/material';
 
-import { useAtom } from 'jotai';
-
 import { Navigate } from 'react-router-dom';
 
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 
-import login from '../../atoms/login';
+import useLoginStore from '../../stores/login';
+import useToastsStore from '../../stores/toasts';
 
 export default function Login() {
-  const [isLoggedIn, setLoggedIn] = useAtom(login);
+  const loginStore = useLoginStore((state) => state);
+  const toastsStore = useToastsStore((state) => state);
   const isLoading = false;
   // Form requirements
   const schema = yup.object({
@@ -32,10 +32,13 @@ export default function Login() {
       password: '',
     },
     validationSchema: schema,
-    onSubmit: () => setLoggedIn(true),
+    onSubmit: () => {
+      loginStore.login();
+      toastsStore.addToast({ message: 'Working', severity: 'success' });
+    },
   });
   // -----------------
-  if (isLoggedIn) return <Navigate to="/" />;
+  if (loginStore.isLoggedIn) return <Navigate to="/" />;
   return (
     <Card elevation={3} className="self-center w-full py-6 mx-3 md:w-1/2 lg:w-1/3 md:mx-auto">
       <Stack spacing={2}>

@@ -1,5 +1,5 @@
 {
-  "name": "materialui-with-tailwindcss",
+  "name": "sos-village-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,7 +12,6 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "formik": "^2.2.9",
-    "jotai": "^1.6.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -20,7 +19,8 @@
     "react-router-dom": "^6.2.2",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "^3.7.1"
   },
   "scripts": {
     "start": "craco start",
