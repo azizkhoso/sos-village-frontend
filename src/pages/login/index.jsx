@@ -14,13 +14,26 @@ import { Navigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 
+import { useMutation } from 'react-query';
+
 import useLoginStore from '../../stores/login';
 import useToastsStore from '../../stores/toasts';
+
+import login from '../../api/login';
 
 export default function Login() {
   const loginStore = useLoginStore((state) => state);
   const toastsStore = useToastsStore((state) => state);
-  const isLoading = false;
+  const { isLoading, mutate } = useMutation(
+    (values) => login(values),
+    {
+      onSuccess: ({ data }) => {
+        loginStore.login();
+        sessionStorage.setItem('token', data.token);
+      },
+      onError: (err) => toastsStore.addToast({ message: err.response?.data?.error || err.message, severity: 'error' }),
+    },
+  );
   // Form requirements
   const schema = yup.object({
     user: yup.string().required('User is required').min(3, 'User name should be at least 3 characters long'),
@@ -32,17 +45,14 @@ export default function Login() {
       password: '',
     },
     validationSchema: schema,
-    onSubmit: () => {
-      loginStore.login();
-      toastsStore.addToast({ message: 'Working', severity: 'success' });
-    },
+    onSubmit: (values) => mutate(values),
   });
   // -----------------
   if (loginStore.isLoggedIn) return <Navigate to="/" />;
   return (
     <Card elevation={3} className="self-center w-full py-6 mx-3 md:w-1/2 lg:w-1/3 md:mx-auto">
       <Stack spacing={2}>
-        <Typography variant="h5" align="center">Login as an Admin</Typography>
+        <Typography variant="h5" align="center">SOS Village Management System</Typography>
         <Stack spacing={2} className="px-6" component="form" onSubmit={formik.handleSubmit}>
           <TextField
             variant="outlined"

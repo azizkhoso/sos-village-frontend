@@ -33,7 +33,7 @@ export default function Dashboard() {
             <Menu />
           </IconButton>
           <Typography variant="h5" className="flex items-center justify-center flex-grow">Admin</Typography>
-          <IconButton onClick={() => loginStore.logout()}>
+          <IconButton onClick={() => { loginStore.logout(); sessionStorage.removeItem('token'); }}>
             <Logout />
           </IconButton>
         </div>
