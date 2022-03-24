@@ -17,6 +17,7 @@ import {
 } from '@mui/icons-material';
 
 import Sidebar from './sidebar';
+import Houses from './houses';
 
 import useLoginStore from '../../stores/login';
 
@@ -41,10 +42,10 @@ export default function Dashboard() {
           <Routes>
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="/dashboard" element={<h1>Admin dashboard</h1>} />
-            <Route path="/houses" element={<h1>houses</h1>} />
-            <Route path="/items" element={<h1>Items</h1>} />
-            <Route path="/records" element={<h1>records</h1>} />
-            <Route path="/inkinds" element={<h1>inkinds</h1>} />
+            <Route path="/houses/*" element={<Houses />} />
+            <Route path="/items/*" element={<h1>Items</h1>} />
+            <Route path="/records/*" element={<h1>records</h1>} />
+            <Route path="/inkinds/*" element={<h1>inkinds</h1>} />
           </Routes>
         </div>
       </section>
