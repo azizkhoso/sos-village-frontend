@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Stack from '@mui/material/Stack';
 
@@ -21,9 +20,3 @@ export default function Toasts() {
     </Stack>
   );
 }
-
-Toasts.propTypes = {
-  actions: PropTypes.shape({
-    removeToast: PropTypes.func.isRequired,
-  }).isRequired,
-};

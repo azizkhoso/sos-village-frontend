@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 
 import {
@@ -27,15 +28,31 @@ import {
   Add,
 } from '@mui/icons-material';
 
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+
+import useToastsStore from '../../../stores/toasts';
 
 import NewHouse from './NewHouse';
-import { getHouses } from '../../../api/admin/houses';
+import { deleteHouse, getHouses } from '../../../api/admin/houses';
+import UpdateHouse from './UpdateHouse';
 
 export default function Houses() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const toastsStore = useToastsStore((state) => state);
   const [searchText, setSearchText] = React.useState('');
-  const { isLoading, data: { data: { houses } } } = useQuery('houses', getHouses, { refetchOnMount: 'always' });
+  const { isLoading, data } = useQuery('houses', getHouses, { refetchOnMount: 'always' });
+  const { mutate } = useMutation(
+    (id) => deleteHouse(id),
+    {
+      onSuccess: () => {
+        toastsStore.addToast({ message: 'Houses deleted successfully', severity: 'success' });
+        queryClient.invalidateQueries('houses');
+        navigate('/admin/houses');
+      },
+      onError: (err) => toastsStore.addToast({ message: err.response?.data?.error || err.message, severity: 'error' }),
+    },
+  );
   if (isLoading) {
     return (
       <div className="flex items-center justify-center w-full">
@@ -70,24 +87,27 @@ export default function Houses() {
                     <TableCell className="font-bold">Sr. No.</TableCell>
                     <TableCell className="font-bold">Name</TableCell>
                     <TableCell className="font-bold">Mother</TableCell>
-                    <TableCell className="font-bold" align="center">Action</TableCell>
+                    <TableCell className="font-bold">Update</TableCell>
+                    <TableCell className="font-bold">Delete</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {
-                    houses.filter(
+                    data.data.houses.filter(
                       (h) => h.name.toLowerCase().includes(searchText.toLowerCase()),
                     ).map((house, index) => (
-                      <TableRow key={house.id}>
+                      <TableRow key={house._id}>
                         <TableCell>{index + 1}</TableCell>
                         <TableCell>{house.name}</TableCell>
                         <TableCell>{house.mother}</TableCell>
-                        <TableCell align="center">
-                          <IconButton onClick={() => navigate(`update/${house.id}`)}>
+                        <TableCell>
+                          <IconButton onClick={() => navigate(`update/${house._id}`, { state: house })}>
                             <Edit />
                           </IconButton>
-                          <IconButton>
-                            <Delete />
+                        </TableCell>
+                        <TableCell>
+                          <IconButton onClick={() => mutate(house._id)}>
+                            <Delete htmlColor="red" />
                           </IconButton>
                         </TableCell>
                       </TableRow>
@@ -100,7 +120,7 @@ export default function Houses() {
         )}
       />
       <Route path="/new-house" element={<NewHouse />} />
-      <Route path="/update/:id" element={<h1>Update house</h1>} />
+      <Route path="/update/:id" element={<UpdateHouse />} />
       <Route path="/:id" element={<h1>View House</h1>} />
     </Routes>
   );

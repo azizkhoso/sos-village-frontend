@@ -27,5 +27,13 @@ export function getHouses() {
 }
 
 export function addHouse(data = { name: '', mother: '' }) {
-  return houses.post('/new-house', data);
+  return houses.post('/', data);
+}
+
+export function updateHouse(id, data = { name: '', mother: '' }) {
+  return houses.post(`/${id}`, data);
+}
+
+export function deleteHouse(id) {
+  return houses.delete(`/${id}`);
 }
