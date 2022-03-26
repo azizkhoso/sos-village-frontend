@@ -18,6 +18,8 @@ import {
   House,
   Inventory,
   VolunteerActivism,
+  TableRows,
+  Receipt,
 } from '@mui/icons-material';
 
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -44,7 +46,12 @@ export default function DrawerContent({ handleClose }) {
     {
       title: 'Records',
       link: '/admin/records',
-      icon: <Inventory />,
+      icon: <TableRows />,
+    },
+    {
+      title: 'Receipts',
+      link: '/admin/receipts',
+      icon: <Receipt />,
     },
     {
       title: 'InKinds',

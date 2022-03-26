@@ -81,7 +81,7 @@ export default function Items() {
               </div>
             </div>
             <TableContainer className="w-full" component={Card}>
-              <Table>
+              <Table size="small">
                 <TableHead>
                   <TableRow>
                     <TableCell className="font-bold">Sr. No.</TableCell>
