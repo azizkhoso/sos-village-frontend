@@ -38,7 +38,7 @@ export default function DrawerContent({ handleClose }) {
     },
     {
       title: 'Items',
-      link: '/admin/item',
+      link: '/admin/items',
       icon: <Inventory />,
     },
     {

@@ -32,23 +32,23 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import useToastsStore from '../../../stores/toasts';
 
-import NewHouse from './NewHouse';
-import { deleteHouse, getHouses } from '../../../api/admin/houses';
-import UpdateHouse from './UpdateHouse';
+import NewItem from './NewItem';
+import { deleteItem, getItems } from '../../../api/admin/items';
+import UpdateItem from './UpdateItem';
 
-export default function Houses() {
+export default function Items() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const toastsStore = useToastsStore((state) => state);
   const [searchText, setSearchText] = React.useState('');
-  const { isLoading, data } = useQuery('houses', getHouses, { refetchOnMount: 'always' });
+  const { isLoading, data } = useQuery('items', getItems, { refetchOnMount: 'always' });
   const { mutate } = useMutation(
-    (id) => deleteHouse(id),
+    (id) => deleteItem(id),
     {
       onSuccess: () => {
-        toastsStore.addToast({ message: 'House deleted successfully', severity: 'success' });
-        queryClient.invalidateQueries('houses');
-        navigate('/admin/houses');
+        toastsStore.addToast({ message: 'Item deleted successfully', severity: 'success' });
+        queryClient.invalidateQueries('items');
+        navigate('/admin/items');
       },
       onError: (err) => toastsStore.addToast({ message: err.response?.data?.error || err.message, severity: 'error' }),
     },
@@ -67,7 +67,7 @@ export default function Houses() {
         element={(
           <div className="flex flex-col w-full h-full gap-6">
             <div className="flex flex-wrap items-center w-full gap-3">
-              <Typography variant="h6" align="center font-semibold">Houses</Typography>
+              <Typography variant="h6" align="center font-semibold">Items</Typography>
               <div className="flex gap-3 ml-auto">
                 <TextField
                   label="Search"
@@ -77,7 +77,7 @@ export default function Houses() {
                   variant="outlined"
                   className="min-w-max"
                 />
-                <Button variant="contained" startIcon={<Add />} onClick={() => navigate('new-house')}>New House</Button>
+                <Button variant="contained" startIcon={<Add />} onClick={() => navigate('new-item')}>New Item</Button>
               </div>
             </div>
             <TableContainer className="w-full" component={Card}>
@@ -86,27 +86,29 @@ export default function Houses() {
                   <TableRow>
                     <TableCell className="font-bold">Sr. No.</TableCell>
                     <TableCell className="font-bold">Name</TableCell>
-                    <TableCell className="font-bold">Mother</TableCell>
+                    <TableCell className="font-bold">Unit</TableCell>
+                    <TableCell className="font-bold">Unit Shortform</TableCell>
                     <TableCell className="font-bold">Update</TableCell>
                     <TableCell className="font-bold">Delete</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {
-                    data.data.houses.filter(
+                    data.data.items.filter(
                       (h) => h.name.toLowerCase().includes(searchText.toLowerCase()),
-                    ).map((house, index) => (
-                      <TableRow key={house._id}>
+                    ).map((item, index) => (
+                      <TableRow key={item._id}>
                         <TableCell>{index + 1}</TableCell>
-                        <TableCell>{house.name}</TableCell>
-                        <TableCell>{house.mother}</TableCell>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>{item.measurementUnit}</TableCell>
+                        <TableCell>{item.unitShortform}</TableCell>
                         <TableCell>
-                          <IconButton onClick={() => navigate(`update/${house._id}`, { state: house })}>
+                          <IconButton onClick={() => navigate(`update/${item._id}`, { state: item })}>
                             <Edit />
                           </IconButton>
                         </TableCell>
                         <TableCell>
-                          <IconButton onClick={() => mutate(house._id)}>
+                          <IconButton onClick={() => mutate(item._id)}>
                             <Delete htmlColor="red" />
                           </IconButton>
                         </TableCell>
@@ -119,9 +121,9 @@ export default function Houses() {
           </div>
         )}
       />
-      <Route path="/new-house" element={<NewHouse />} />
-      <Route path="/update/:id" element={<UpdateHouse />} />
-      <Route path="/:id" element={<h1>View House</h1>} />
+      <Route path="/new-item" element={<NewItem />} />
+      <Route path="/update/:id" element={<UpdateItem />} />
+      <Route path="/:id" element={<h1>View Item</h1>} />
     </Routes>
   );
 }

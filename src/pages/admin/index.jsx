@@ -20,6 +20,7 @@ import Sidebar from './sidebar';
 import Houses from './houses';
 
 import useLoginStore from '../../stores/login';
+import Items from './items';
 
 export default function Dashboard() {
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -43,7 +44,7 @@ export default function Dashboard() {
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="/dashboard" element={<h1>Admin dashboard</h1>} />
             <Route path="/houses/*" element={<Houses />} />
-            <Route path="/items/*" element={<h1>Items</h1>} />
+            <Route path="/items/*" element={<Items />} />
             <Route path="/records/*" element={<h1>records</h1>} />
             <Route path="/inkinds/*" element={<h1>inkinds</h1>} />
           </Routes>

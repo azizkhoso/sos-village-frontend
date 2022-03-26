@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 
 import {
-  Add,
+  Edit,
 } from '@mui/icons-material';
 
 import { useFormik } from 'formik';
@@ -35,7 +35,7 @@ export default function UpdateHouse() {
     (values) => updateHouse(location.state._id, values),
     {
       onSuccess: () => {
-        toastsStore.addToast({ message: 'Houses updated successfully', severity: 'success' });
+        toastsStore.addToast({ message: 'House updated successfully', severity: 'success' });
         queryClient.invalidateQueries('houses');
         navigate('/admin/houses');
       },
@@ -86,7 +86,7 @@ export default function UpdateHouse() {
             />
           </Grid>
           <Grid item xs={12} className="flex items-center justify-center">
-            <Button type="submit" variant="contained" disabled={isLoading} startIcon={<Add />}>
+            <Button type="submit" variant="contained" disabled={isLoading} startIcon={<Edit />}>
               {
                 isLoading
                   ? <CircularProgress />
