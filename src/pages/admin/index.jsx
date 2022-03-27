@@ -22,6 +22,7 @@ import Items from './items';
 import Records from './records';
 
 import useLoginStore from '../../stores/login';
+import Receipts from './receipts';
 
 export default function Dashboard() {
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -47,6 +48,7 @@ export default function Dashboard() {
             <Route path="/houses/*" element={<Houses />} />
             <Route path="/items/*" element={<Items />} />
             <Route path="/records/*" element={<Records />} />
+            <Route path="/receipts/*" element={<Receipts />} />
             <Route path="/inkinds/*" element={<h1>inkinds</h1>} />
           </Routes>
         </div>
