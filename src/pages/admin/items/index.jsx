@@ -67,7 +67,7 @@ export default function Items() {
         element={(
           <div className="flex flex-col w-full h-full gap-6">
             <div className="flex flex-wrap items-center w-full gap-3">
-              <Typography variant="h6" align="center font-semibold">Items</Typography>
+              <Typography variant="h6" className="font-semibold">Items</Typography>
               <div className="flex gap-3 ml-auto">
                 <TextField
                   label="Search"
@@ -88,6 +88,7 @@ export default function Items() {
                     <TableCell className="font-bold">Name</TableCell>
                     <TableCell className="font-bold">Unit</TableCell>
                     <TableCell className="font-bold">Unit Shortform</TableCell>
+                    <TableCell className="font-bold">Remaining Quantity</TableCell>
                     <TableCell className="font-bold">Update</TableCell>
                     <TableCell className="font-bold">Delete</TableCell>
                   </TableRow>
@@ -102,6 +103,7 @@ export default function Items() {
                         <TableCell>{item.name}</TableCell>
                         <TableCell>{item.measurementUnit}</TableCell>
                         <TableCell>{item.unitShortform}</TableCell>
+                        <TableCell>{`${item.remainingQuantity} ${item.unitShortform}`}</TableCell>
                         <TableCell>
                           <IconButton onClick={() => navigate(`update/${item._id}`, { state: item })}>
                             <Edit />

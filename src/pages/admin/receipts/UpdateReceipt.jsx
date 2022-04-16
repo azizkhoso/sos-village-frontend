@@ -83,7 +83,13 @@ export default function UpdateReceipt() {
             >
               {
                 itemsQuery.data?.data.items.map((i) => (
-                  <MenuItem key={i._id} value={i._id}>{i.name}</MenuItem>
+                  <MenuItem key={i._id} value={i._id}>
+                    {i.name}
+                    &nbsp;
+                    (
+                    {i.unitShortform}
+                    )
+                  </MenuItem>
                 ))
               }
             </Select>

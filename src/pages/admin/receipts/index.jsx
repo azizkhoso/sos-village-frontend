@@ -69,7 +69,7 @@ export default function Receipts() {
         element={(
           <div className="flex flex-col w-full h-full gap-6">
             <div className="flex flex-wrap items-center w-full gap-3">
-              <Typography variant="h6" align="center font-semibold">Receipts</Typography>
+              <Typography variant="h6" className="font-semibold">Receipts</Typography>
               <div className="flex gap-3 ml-auto">
                 <TextField
                   label="Search by Item"
