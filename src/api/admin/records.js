@@ -26,6 +26,10 @@ export function getRecords() {
   return records.get();
 }
 
+export function getReport(query = { month: 1, year: new Date().getFullYear() }, houseId) {
+  return records.get(`/report/${houseId}?month=${query.month}&&year=${query.year}`);
+}
+
 export function addRecord(data = { name: '', mother: '' }) {
   return records.post('/', data);
 }

@@ -45,7 +45,7 @@ export default function Records() {
   const [itemSearchText, setItemSearchText] = React.useState('');
   const [houseSearchText, setHouseSearchText] = React.useState('');
   const [motherSearchText, setMotherSearchText] = React.useState('');
-  const { isLoading, data } = useQuery('records', getRecords, { refetchOnMount: 'always' });
+  const { isLoading, data } = useQuery('records', getRecords, { refetchOnMount: true });
   const { mutate } = useMutation(
     (id) => deleteRecord(id),
     {

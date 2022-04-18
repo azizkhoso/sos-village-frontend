@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  Link,
 } from 'react-router-dom';
 
 import {
@@ -33,8 +34,10 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import useToastsStore from '../../../stores/toasts';
 
 import NewHouse from './NewHouse';
-import { deleteHouse, getHouses } from '../../../api/admin/houses';
 import UpdateHouse from './UpdateHouse';
+import HouseReport from './HouseReport';
+
+import { deleteHouse, getHouses } from '../../../api/admin/houses';
 
 export default function Houses() {
   const navigate = useNavigate();
@@ -87,6 +90,7 @@ export default function Houses() {
                     <TableCell className="font-bold">Sr. No.</TableCell>
                     <TableCell className="font-bold">Name</TableCell>
                     <TableCell className="font-bold">Mother</TableCell>
+                    <TableCell className="font-bold">Report</TableCell>
                     <TableCell className="font-bold">Update</TableCell>
                     <TableCell className="font-bold">Delete</TableCell>
                   </TableRow>
@@ -100,6 +104,11 @@ export default function Houses() {
                         <TableCell>{index + 1}</TableCell>
                         <TableCell>{house.name}</TableCell>
                         <TableCell>{house.mother}</TableCell>
+                        <TableCell>
+                          <Link to={`report/${house._id}`} state={house}>
+                            <Button type="text">View Report</Button>
+                          </Link>
+                        </TableCell>
                         <TableCell>
                           <IconButton onClick={() => navigate(`update/${house._id}`, { state: house })}>
                             <Edit />
@@ -121,6 +130,7 @@ export default function Houses() {
       />
       <Route path="/new-house" element={<NewHouse />} />
       <Route path="/update/:id" element={<UpdateHouse />} />
+      <Route path="/report/:id" element={<HouseReport />} />
       <Route path="/:id" element={<h1>View House</h1>} />
     </Routes>
   );
